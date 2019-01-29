@@ -15,13 +15,14 @@ module.exports = {
                     loader: 'vue-style-loader'
                 }]
             },
+
         ]
     },
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
         },
-        extensions: ['.js', '.vue']
+        extensions: ['.ts', '.vue']
     },
     plugins: [
         new VueLoaderPlugin(),

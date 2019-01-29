@@ -21,8 +21,8 @@ j-webpack 统一配置
 在项目的根目录中创建或修改 [ config.js ] 为以下内容
 ```
     module.exports = {
+        component: true, //是否组件模式
         framework: 'vue', //项目使用的框架，可选vue , angular or react
-        offline: false //是否离线版本，离线（嵌到app内）,
         // webpack server 配置
         devServer: {
             host: 'localhost',
@@ -43,34 +43,50 @@ j-webpack 统一配置
 
 在 [ package.json ] 中的 [ devDependencies ] ，添加以下内容
 ```
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-external-helpers": "^6.22.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-external-helpers": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-stage-2": "^7.0.0",
+    "@types/node": "^10.12.18",
+    "autoprefixer": "^9.0.0",
+    "babel-loader": "^8.0.0",
     "babel-plugin-import": "^1.7.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-polyfill": "^6.26.0",
+    "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chalk": "^2.4.1",
     "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^5.1.4",
-    "css-loader": "^0.28.11",
-    "file-loader": "^1.1.11",
-    "html-loader": "^0.5.5",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.8.3",
-    "postcss-loader": "^2.1.4",
+    "postcss-loader": "^3.0.0",
+    "replace-in-file-webpack-plugin": "^1.0.6",
     "sass-loader": "^7.0.1",
     "shelljs": "^0.8.2",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4",
     "url-loader": "^1.0.1",
-    "webpack": "^4.12.2",
-    "webpack-bundle-analyzer": "^2.11.1",
+    "vue-carousel-3d": "^0.1.23",
+    "vue-loader": "^15.0.0-rc.2",
+    "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.6.0",
+    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.3",
-    "webpack-merge": "^4.1.2",
-    "replace-in-file-webpack-plugin": "^1.0.6",
+    "webpack-merge": "^4.1.2"
 ```
 
 ### 4.添加不同的依赖包（修改项目的 package.json），应对不同框架(vue，angular,react)，现阶段只支持vue
@@ -115,6 +131,7 @@ j-webpack 统一配置
  0.1.0 恢复依赖包版本检查
  0.1.1 修复img直接引入问题，package.js 中 devDependencies 需添加"replace-in-file-webpack-plugin": "^1.0.6",
  0.1.2 修复js版本后缀
+ 1.0.0 支持typescript ,升级babel 7，增加组件模式（不会分离css,img,js）
 ```
 
 

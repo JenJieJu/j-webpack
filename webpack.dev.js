@@ -27,7 +27,6 @@ module.exports = merge(baseWebpackConfig, {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: merge({
-        host: getIPAdress(),
         hot: true,
         open: true,
         // 开启gzip
@@ -35,34 +34,6 @@ module.exports = merge(baseWebpackConfig, {
         // contentBase: path.resolve('./../'),
         // publicPath: './',
         proxy: {
-            '/dev': {
-                target: 'http://192.168.3.111/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/dev': ''
-                }
-            },
-            '/test': {
-                target: 'http://test.mediportal.com.cn/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/test': ''
-                }
-            },
-            '/pre': {
-                target: 'http://pre.mediportal.com.cn/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/pre': ''
-                }
-            },
-            '/www': {
-                target: 'http://xg.mediportal.com.cn/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/www': ''
-                }
-            }
         }
     }, Config.devServer),
 })

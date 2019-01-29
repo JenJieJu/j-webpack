@@ -10,7 +10,7 @@ const baseWebpackConfig = require('./webpack.base.js');
 module.exports = merge(baseWebpackConfig, {
     mode: 'production',
     plugins: [
-        // new CleanWebpackPlugin([path.resolve('dist')], { allowExternal: true }),
+        new CleanWebpackPlugin([path.resolve('dist')], { allowExternal: true }),
         // new BundleAnalyzerPlugin()
     ]
 })
