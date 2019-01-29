@@ -6,7 +6,7 @@ j-webpack 统一配置
 ### 1.安装
 
 ```
-    npm i dcWebpack -D
+    npm i j-webpack -D
 ```
 
 ### 2.配置
@@ -15,13 +15,13 @@ j-webpack 统一配置
 ```
     const path = require('path');
 
-    module.exports = require('dcWebpack')(path.resolve(__dirname, './'));
+    module.exports = require('j-webpack')(path.resolve(__dirname, './'));
 ```
 
 在项目的根目录中创建或修改 [ config.js ] 为以下内容
 ```
     module.exports = {
-        component: true, //是否组件模式
+        component: false, //是否组件模式
         framework: 'vue', //项目使用的框架，可选vue , angular or react
         // webpack server 配置
         devServer: {
@@ -78,10 +78,6 @@ j-webpack 统一配置
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "url-loader": "^1.0.1",
-    "vue-carousel-3d": "^0.1.23",
-    "vue-loader": "^15.0.0-rc.2",
-    "vue-style-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.16",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.0.8",
@@ -109,7 +105,18 @@ j-webpack 统一配置
     "build": "cross-env NODE_ENV=build webpack --progress"
 ```
 
-### 6.安装，运行，打包
+### 6.新建typescript配置文件（项目根目录下） tsconfig.json
+```
+{
+    "include": [
+        "src/*",
+        "src/**/*"
+    ],
+    "extends": "./node_modules/j-webpack/tsconfig",
+}
+```
+
+### 7.安装，运行，打包
 
 ```
     npm i
