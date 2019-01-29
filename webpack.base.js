@@ -57,7 +57,7 @@ module.exports = merge(FrameworkConfig, {
             },
             {
                 test: /\.(css|scss|less)$/,
-                use: (function () {
+                use: (function() {
                     let use = [{
                             loader: 'css-loader',
                         }, {
@@ -84,7 +84,11 @@ module.exports = merge(FrameworkConfig, {
                     ]
 
                     if (!IS_COMPONENT) {
-                        use.unshift(MiniCssExtractPlugin.loader);
+                        use = [MiniCssExtractPlugin.loader].concat(use);
+                    } else {
+                        use = [{
+                            loader: 'style-loader'
+                        }].concat(use);
                     }
 
                     return use;
@@ -115,7 +119,7 @@ module.exports = merge(FrameworkConfig, {
             }
         ]
     },
-    plugins: (function () {
+    plugins: (function() {
         let plugins = [
             new HtmlWebpackPlugin({
                 minify: {
@@ -130,7 +134,8 @@ module.exports = merge(FrameworkConfig, {
                 cache: true,
                 chunksSortMode: 'none',
                 filename: './index.html',
-                template: './index.html.tpl'
+                template: './index.html.tpl',
+                inject: IS_COMPONENT ? 'head' : 'body'
             }),
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             new ReplaceInFileWebpackPlugin([{
@@ -156,7 +161,7 @@ module.exports = merge(FrameworkConfig, {
     optimization: {
         // 代码提取
         splitChunks: {
-            cacheGroups: (function (params) {
+            cacheGroups: (function(params) {
                 return IS_COMPONENT ? {} : {
                     common: {
                         chunks: 'initial',

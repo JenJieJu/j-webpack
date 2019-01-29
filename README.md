@@ -75,6 +75,7 @@ j-webpack 统一配置
     "replace-in-file-webpack-plugin": "^1.0.6",
     "sass-loader": "^7.0.1",
     "shelljs": "^0.8.2",
+    "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "url-loader": "^1.0.1",
