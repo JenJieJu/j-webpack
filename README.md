@@ -140,6 +140,7 @@ j-webpack 统一配置
  0.1.1 修复img直接引入问题，package.js 中 devDependencies 需添加"replace-in-file-webpack-plugin": "^1.0.6",
  0.1.2 修复js版本后缀
  1.0.0 支持typescript ,升级babel 7，增加组件模式（不会分离css,img,js）
+ 1.0.4 修复[typescript 错误：无法写入xxx，因为会被覆盖]的问题
 ```
 
 
