@@ -110,8 +110,8 @@ j-webpack 统一配置
 ```
 {
     "include": [
-        "src/*",
-        "src/**/*"
+        "src/*.ts",
+        "src/**/*.ts"
     ],
     "extends": "./node_modules/j-webpack/tsconfig",
 }
@@ -141,6 +141,7 @@ j-webpack 统一配置
  0.1.2 修复js版本后缀
  1.0.0 支持typescript ,升级babel 7，增加组件模式（不会分离css,img,js）
  1.0.4 修复[typescript 错误：无法写入xxx，因为会被覆盖]的问题
+ 1.0.5 修复vue bug
 ```
 
 
