@@ -8,9 +8,9 @@ module.exports = function(ROOT_PATH) {
     const NODE_ENV = process.env.NODE_ENV;
     process.env.ROOT_PATH = ROOT_PATH;
 
-    const check = require('./check-versions.js');
+    // const check = require('./check-versions.js');
 
-    check();
+    // check();
 
     let option = {
         dev: require('./webpack.dev.js'),

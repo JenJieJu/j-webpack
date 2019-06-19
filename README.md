@@ -97,6 +97,13 @@ j-webpack 统一配置
     "vue-template-compiler": "^2.5.16",
 ```
 
+#### 4.2 react
+
+在 [ devDependencies ]，添加以下内容
+```
+    "@babel/preset-react": "^7.0.0",
+```
+
 ### 5.添加运行命令 package.json
 
 在 [ scripts ] ，添加以下内容
@@ -142,6 +149,7 @@ j-webpack 统一配置
  1.0.0 支持typescript ,升级babel 7，增加组件模式（不会分离css,img,js）
  1.0.4 修复[typescript 错误：无法写入xxx，因为会被覆盖]的问题
  1.0.5 修复vue bug
+ 1.0.7 去除check-versions，增加对react的支持
 ```
 
 

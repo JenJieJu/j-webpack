@@ -14,112 +14,114 @@ const IS_BUILD = NODE_ENV == 'build';
 
 let OUT = process.env.OUT = 'dist/';
 
-let FrameworkConfig = {};
+let VueFrameworkConfig = {}, ReactFrameworkConfig;
 
 if (Config.framework == 'vue') {
-    FrameworkConfig = require('./webpack.vue.js');
+    VueFrameworkConfig = require('./webpack.vue.js');
+} else if (Config.framework == 'react') {
+    ReactFrameworkConfig = require('./webpack.react.js');
 }
 
-module.exports = merge(FrameworkConfig, {
+const config = merge.smart(VueFrameworkConfig, {
     entry: path.resolve('src'),
     output: {
         path: path.resolve('./'),
-        filename: OUT + 'js/[name]-[hash:5].js?[hash]',
+        filename: OUT + (IS_COMPONENT ? 'index.js?[hash]' : 'js/[name]-[hash:5].js?[hash]'),
     },
     module: {
         rules: [{
-                test: /\.ts$/,
-                loader: 'ts-loader',
-                options: {
-                    appendTsSuffixTo: [/\.vue$/]
-                }
-            }, {
-                test: /\.tsx$/,
-                loader: 'babel-loader!ts-loader',
-                options: {
-                    appendTsxSuffixTo: [/\.vue$/]
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-                options: {
-                    plugins: [
-                        '@babel/syntax-dynamic-import',
-                        '@babel/transform-runtime'
-                    ],
-                    presets: [
-                        '@babel/preset-env'
-                    ],
-                    cacheDirectory: true
-                }
-            },
-            {
-                test: /\.(css|scss|less)$/,
-                use: (function() {
-                    let use = [{
-                            loader: 'css-loader',
-                        }, {
-                            loader: 'sass-loader',
-                            options: {
-                                // data: '$color: red;'
-                            }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: () => [
-                                    require('autoprefixer')({
-                                        browsers: [
-                                            'last 10 Chrome versions',
-                                            'last 5 Firefox versions',
-                                            'Safari >= 6',
-                                            'ie > 8'
-                                        ]
-                                    })
-                                ]
-                            }
-                        }
-                    ]
-
-                    if (!IS_COMPONENT) {
-                        use = [MiniCssExtractPlugin.loader].concat(use);
-                    } else {
-                        use = [{
-                            loader: 'style-loader'
-                        }].concat(use);
-                    }
-
-                    return use;
-                })()
-            }, {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: IS_COMPONENT ? 9999999999999999999 : 1,
-                    name: OUT + 'img/[name]-[hash:5].[ext]',
-                    publicPath: IS_BUILD ? '' : '../../',
-                }
-            }, {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: IS_COMPONENT ? 9999999999999999999 : 1,
-                    name: OUT + 'fonts/[name]-[hash:5].[ext]',
-                    publicPath: '../../',
-                }
-            },
-            {
-                test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                    options: {}
-                }
+            test: /\.ts$/,
+            loader: 'ts-loader',
+            options: {
+                appendTsSuffixTo: [/\.vue$/]
             }
+        }, {
+            test: /\.tsx$/,
+            loader: 'babel-loader!ts-loader',
+            options: {
+                appendTsxSuffixTo: [/\.vue$/]
+            }
+        },
+        {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/,
+            options: {
+                plugins: [
+                    '@babel/syntax-dynamic-import',
+                    '@babel/transform-runtime'
+                ],
+                presets: [
+                    '@babel/preset-env'
+                ],
+                cacheDirectory: true
+            }
+        },
+        {
+            test: /\.(css|scss|less)$/,
+            use: (function () {
+                let use = [{
+                    loader: 'css-loader',
+                }, {
+                    loader: 'sass-loader',
+                    options: {
+                        // data: '$color: red;'
+                    }
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: () => [
+                            require('autoprefixer')({
+                                browsers: [
+                                    'last 10 Chrome versions',
+                                    'last 5 Firefox versions',
+                                    'Safari >= 6',
+                                    'ie > 8'
+                                ]
+                            })
+                        ]
+                    }
+                }
+                ]
+
+                if (!IS_COMPONENT) {
+                    use = [MiniCssExtractPlugin.loader].concat(use);
+                } else {
+                    use = [{
+                        loader: 'style-loader'
+                    }].concat(use);
+                }
+
+                return use;
+            })()
+        }, {
+            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+            loader: 'url-loader',
+            options: {
+                limit: IS_COMPONENT ? 9999999999999999999 : 1,
+                name: OUT + 'img/[name]-[hash:5].[ext]',
+                publicPath: IS_BUILD ? '' : '../../',
+            }
+        }, {
+            test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+            loader: 'url-loader',
+            options: {
+                limit: IS_COMPONENT ? 9999999999999999999 : 1,
+                name: OUT + 'fonts/[name]-[hash:5].[ext]',
+                publicPath: '../../',
+            }
+        },
+        {
+            test: /\.(html)$/,
+            use: {
+                loader: 'html-loader',
+                options: {}
+            }
+        }
         ]
     },
-    plugins: (function() {
+    plugins: (function () {
         let plugins = [
             new HtmlWebpackPlugin({
                 minify: {
@@ -161,7 +163,7 @@ module.exports = merge(FrameworkConfig, {
     optimization: {
         // 代码提取
         splitChunks: {
-            cacheGroups: (function(params) {
+            cacheGroups: (function (params) {
                 return IS_COMPONENT ? {} : {
                     common: {
                         chunks: 'initial',
@@ -178,4 +180,7 @@ module.exports = merge(FrameworkConfig, {
         },
         extensions: ['.tsx', '.ts', '.js']
     },
-});
+}, ReactFrameworkConfig);
+
+
+module.exports = config
