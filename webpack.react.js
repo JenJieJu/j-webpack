@@ -8,6 +8,9 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     plugins: [
+                        '@babel/plugin-proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        
                         // '@babel/syntax-dynamic-import',
                         // '@babel/transform-runtime'
                     ],

@@ -5,31 +5,30 @@ const semver = require('semver')
 const packageConfig = require(process.env.ROOT_PATH + '/package.json');
 const shell = require('shelljs')
 
-// console.log(chalk.green(JSON.stringify(packageConfig)));
 
-function exec(cmd) {
+function exec (cmd) {
     return require('child_process').execSync(cmd).toString().trim()
 }
 
 const versionRequirements = [{
     name: 'node',
-    // currentVersion: semver.clean(process.version),
-    // versionRequirement: packageConfig.engines.node,
-    // devDependenciesVersion: (function(list) {
-    //     let versionList = [];
-    //     for (let name in list) {
-    //         versionList.push({
-    //             name: name,
-    //             cVersion: exec('npm view ' + name + ' version'),
-    //             nVersion: list[name]
-    //         })
-    //     }
-    //     return versionList
-    // })(packageConfig.devDependencies || []),
-    // 
+    currentVersion: semver.clean(process.version),
+    versionRequirement: packageConfig.engines.node,
+    devDependenciesVersion: (function (list) {
+        let versionList = [];
+        for (let name in list) {
+            versionList.push({
+                name: name,
+                cVersion: exec('npm view ' + name + ' version'),
+                nVersion: list[name]
+            })
+        }
+        return versionList
+    })(packageConfig.devDependencies || []),
+
     devDependenciesVersion: [],
 
-    dependenciesVersion: (function(list) {
+    dependenciesVersion: (function (list) {
         let versionList = [];
         for (let name in list) {
             versionList.push({
@@ -44,27 +43,27 @@ const versionRequirements = [{
 }]
 
 if (shell.which('npm')) {
-    // versionRequirements.push({
-    //   name: 'npm',
-    //   // currentVersion: exec('npm --version'),
-    //   // versionRequirement: packageConfig.engines.npm
-    // })
+    versionRequirements.push({
+        name: 'npm',
+        currentVersion: exec('npm --version'),
+        versionRequirement: packageConfig.engines.npm
+    })
 }
 
 
-module.exports = function() {
+module.exports = function () {
     let warnings = []
 
-    // for (let i = 0; i < versionRequirements.length; i++) {
-    //   const mod = versionRequirements[i]
+    for (let i = 0; i < versionRequirements.length; i++) {
+        const mod = versionRequirements[i]
 
-    //   if (!semver.satisfies(mod.currentVersion, mod.versionRequirement)) {
-    //     warnings.push(mod.name + ': ' +
-    //       chalk.red(mod.currentVersion) + ' should be ' +
-    //       chalk.green(mod.versionRequirement)
-    //     )
-    //   }
-    // }
+        if (!semver.satisfies(mod.currentVersion, mod.versionRequirement)) {
+            warnings.push(mod.name + ': ' +
+                chalk.red(mod.currentVersion) + ' should be ' +
+                chalk.green(mod.versionRequirement)
+            )
+        }
+    }
 
     for (let i = 0; i < versionRequirements.length; i++) {
         const mod = versionRequirements[i]
